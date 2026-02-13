@@ -456,6 +456,35 @@
   --chart-5: 340 75% 55%;
 }
 
+/* Frost Theme - Cyberpunk dark theme with cyan/mint accents
+ * Ported from FrostD4D Live Desktop Suite */
+.frost {
+  --background: 217 62% 4%;
+  --foreground: 205 100% 94%;
+  --card: 217 69% 9%;
+  --card-foreground: 205 85% 92%;
+  --popover: 213 61% 7%;
+  --popover-foreground: 205 85% 92%;
+  --primary: 195 100% 75%;
+  --primary-foreground: 217 62% 4%;
+  --secondary: 215 50% 12%;
+  --secondary-foreground: 205 80% 88%;
+  --muted: 215 45% 11%;
+  --muted-foreground: 204 62% 80%;
+  --accent: 159 86% 77%;
+  --accent-foreground: 217 62% 4%;
+  --destructive: 0 100% 75%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 200 40% 18%;
+  --input: 210 35% 15%;
+  --ring: 195 100% 75%;
+  --chart-1: 195 100% 75%;
+  --chart-2: 159 86% 77%;
+  --chart-3: 37 100% 76%;
+  --chart-4: 148 100% 79%;
+  --chart-5: 0 100% 75%;
+}
+
 * {
   @apply select-none border-border;
 }

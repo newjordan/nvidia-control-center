@@ -1,12 +1,13 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react"
 
-export type ThemeMode = "light" | "dark" | "system"
+export type ThemeMode = "light" | "dark" | "frost" | "system"
 
 interface ThemeContextType {
-  theme: "light" | "dark"
+  theme: "light" | "dark" | "frost"
   themeMode: ThemeMode
   isDark: boolean
   isLight: boolean
+  isFrost: boolean
   setThemeMode: (mode: ThemeMode) => void
   toggleTheme: () => void
 }
@@ -21,22 +22,24 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const [themeMode, setThemeModeState] = useState<ThemeMode>(() => {
     try {
       const stored = localStorage.getItem("theme-preference")
-      if (stored && ["light", "dark", "system"].includes(stored)) {
+      if (stored && ["light", "dark", "frost", "system"].includes(stored)) {
         return stored as ThemeMode
       }
     } catch (e) {}
     return "system"
   })
 
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
+  const [theme, setTheme] = useState<"light" | "dark" | "frost">(() => {
     if (themeMode === "light") return "light"
     if (themeMode === "dark") return "dark"
+    if (themeMode === "frost") return "frost"
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
   })
 
-  const resolveTheme = (mode: ThemeMode): "light" | "dark" => {
+  const resolveTheme = (mode: ThemeMode): "light" | "dark" | "frost" => {
     if (mode === "light") return "light"
     if (mode === "dark") return "dark"
+    if (mode === "frost") return "frost"
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
   }
 
@@ -46,10 +49,11 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     setTheme(newTheme)
 
     const root = document.documentElement
+    root.classList.remove("dark", "frost")
     if (newTheme === "dark") {
       root.classList.add("dark")
-    } else {
-      root.classList.remove("dark")
+    } else if (newTheme === "frost") {
+      root.classList.add("dark", "frost")
     }
 
     try {
@@ -74,10 +78,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       setTheme(newTheme)
 
       const root = document.documentElement
+      root.classList.remove("dark", "frost")
       if (newTheme === "dark") {
         root.classList.add("dark")
-      } else {
-        root.classList.remove("dark")
       }
     }
 
@@ -88,7 +91,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   useEffect(() => {
     const handleThemeChange = (e: CustomEvent) => {
       const newMode = e.detail as ThemeMode
-      if (["light", "dark", "system"].includes(newMode)) {
+      if (["light", "dark", "frost", "system"].includes(newMode)) {
         setThemeModeState(newMode)
       }
     }
@@ -105,10 +108,15 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
           mutation.attributeName === "class"
         ) {
           const isDarkClass = document.documentElement.classList.contains("dark")
+          const isFrostClass = document.documentElement.classList.contains("frost")
           const expectedTheme = resolveTheme(themeMode)
 
-          if ((isDarkClass && expectedTheme === "light") || (!isDarkClass && expectedTheme === "dark")) {
-            setTheme(isDarkClass ? "dark" : "light")
+          if (isFrostClass && expectedTheme !== "frost") {
+            setTheme("frost")
+          } else if (isDarkClass && !isFrostClass && expectedTheme !== "dark") {
+            setTheme("dark")
+          } else if (!isDarkClass && !isFrostClass && expectedTheme !== "light") {
+            setTheme("light")
           }
         }
       })
@@ -133,8 +141,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const contextValue: ThemeContextType = {
     theme,
     themeMode,
-    isDark: theme === "dark",
+    isDark: theme === "dark" || theme === "frost",
     isLight: theme === "light",
+    isFrost: theme === "frost",
     setThemeMode,
     toggleTheme,
   }

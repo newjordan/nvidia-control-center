@@ -9,12 +9,13 @@
       content="default-src 'self' blob: assets:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
     />
     <script>
-      function toggleThemeClass(darkMode) {
+      function applyThemeClasses(theme) {
         const root = document.documentElement
-        if (darkMode) {
+        root.classList.remove("dark", "frost")
+        if (theme === "dark") {
           root.classList.add("dark")
-        } else {
-          root.classList.remove("dark")
+        } else if (theme === "frost") {
+          root.classList.add("dark", "frost")
         }
       }
 
@@ -35,15 +36,17 @@
         const preference = themePreference || getThemePreference()
 
         if (preference === "light") {
-          toggleThemeClass(false)
+          applyThemeClasses("light")
         } else if (preference === "dark") {
-          toggleThemeClass(true)
+          applyThemeClasses("dark")
+        } else if (preference === "frost") {
+          applyThemeClasses("frost")
         } else {
           // System preference
           const darkMode = window.matchMedia(
             "(prefers-color-scheme: dark)",
           ).matches
-          toggleThemeClass(darkMode)
+          applyThemeClasses(darkMode ? "dark" : "light")
         }
       }
 
@@ -57,7 +60,7 @@
         .addEventListener("change", (e) => {
           const preference = getThemePreference()
           if (preference === "system") {
-            toggleThemeClass(e.matches)
+            applyThemeClasses(e.matches ? "dark" : "light")
           }
         })
 

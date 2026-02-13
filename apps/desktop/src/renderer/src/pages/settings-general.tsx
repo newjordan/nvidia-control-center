@@ -172,7 +172,7 @@ export function Component() {
           <Control label="Theme" className="px-3">
             <Select
               value={configQuery.data.themePreference || "system"}
-              onValueChange={(value: "system" | "light" | "dark") => {
+              onValueChange={(value: "system" | "light" | "dark" | "frost") => {
                 saveConfig({
                   themePreference: value,
                 })
@@ -193,6 +193,7 @@ export function Component() {
                 <SelectItem value="system">System</SelectItem>
                 <SelectItem value="light">Light</SelectItem>
                 <SelectItem value="dark">Dark</SelectItem>
+                <SelectItem value="frost">Frost</SelectItem>
               </SelectContent>
             </Select>
           </Control>

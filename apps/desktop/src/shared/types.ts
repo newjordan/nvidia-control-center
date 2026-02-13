@@ -1138,7 +1138,7 @@ export type Config = {
   customToggleVoiceDictationHotkey?: string
 
   // Theme Configuration
-  themePreference?: "system" | "light" | "dark"
+  themePreference?: "system" | "light" | "dark" | "frost"
 
   sttProviderId?: STT_PROVIDER_ID
 

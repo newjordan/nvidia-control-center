@@ -73,6 +73,38 @@ export const darkColors = {
 } as const;
 
 /**
+ * Frost theme color palette
+ * Ported from FrostD4D Live Desktop Suite - cyberpunk dark theme with cyan/mint accents
+ */
+export const frostColors = {
+  background: '#040911',        // --background: 217 62% 4%
+  foreground: '#D3F0FF',        // --foreground: 205 100% 94%
+  card: '#071326',              // --card: 217 69% 9%
+  cardForeground: '#C5E6F7',    // --card-foreground: 205 85% 92%
+  popover: '#07111D',           // --popover: 213 61% 7%
+  popoverForeground: '#C5E6F7', // --popover-foreground: 205 85% 92%
+  primary: '#7FDFFF',           // --primary: 195 100% 75% (cyan accent)
+  primaryForeground: '#040911', // --primary-foreground: 217 62% 4%
+  secondary: '#0F1E2E',        // --secondary: 215 50% 12%
+  secondaryForeground: '#B3D9F0', // --secondary-foreground: 205 80% 88%
+  muted: '#0F1C2B',             // --muted: 215 45% 11%
+  mutedForeground: '#ADDCEC',   // --muted-foreground: 204 62% 80%
+  accent: '#94F7D5',            // --accent: 159 86% 77% (mint green)
+  accentForeground: '#040911',  // --accent-foreground: 217 62% 4%
+  destructive: '#FF8080',       // --destructive: 0 100% 75%
+  destructiveForeground: '#FAFAFA', // --destructive-foreground: 0 0% 98%
+  border: '#163040',            // --border: 200 40% 18%
+  input: '#152436',             // --input: 210 35% 15%
+  ring: '#7FDFFF',              // --ring: 195 100% 75%
+  success: '#96FFC7',           // Frost ok color (bright mint green)
+  successForeground: '#040911', // dark text on success
+  warning: '#FFD085',           // Frost warn color (warm amber)
+  warningForeground: '#040911', // dark text on warning
+  info: '#7FDFFF',              // Frost cyan accent
+  infoForeground: '#040911',    // dark text on info
+} as const;
+
+/**
  * Type for color palette keys
  */
 export type ColorKey = keyof typeof lightColors;
@@ -87,7 +119,8 @@ export type ColorPalette = {
 /**
  * Get colors for a specific color scheme
  */
-export function getColors(colorScheme: 'light' | 'dark'): ColorPalette {
+export function getColors(colorScheme: 'light' | 'dark' | 'frost'): ColorPalette {
+  if (colorScheme === 'frost') return { ...frostColors };
   return colorScheme === 'dark' ? { ...darkColors } : { ...lightColors };
 }
 
