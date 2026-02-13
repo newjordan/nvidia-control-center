@@ -79,10 +79,10 @@ function createTheme(colorScheme: 'light' | 'dark' | 'frost') {
       borderColor: colors.border,
       padding: spacing.md,
       shadowColor: '#000',
-      shadowOpacity: (colorScheme === 'dark' || colorScheme === 'frost') ? 0.3 : 0.1,
+      shadowOpacity: colorScheme === 'light' ? 0.1 : 0.3,
       shadowRadius: 12,
       shadowOffset: { width: 0, height: 4 },
-      elevation: (colorScheme === 'dark' || colorScheme === 'frost') ? 3 : 1,
+      elevation: colorScheme === 'light' ? 1 : 3,
     },
     input: {
       borderWidth: 1,
@@ -100,12 +100,12 @@ function createTheme(colorScheme: 'light' | 'dark' | 'frost') {
       borderWidth: 1,
       borderColor: colors.border,
       shadowColor: '#000',
-      shadowOpacity: (colorScheme === 'dark' || colorScheme === 'frost') ? 0.3 : 0.1,
+      shadowOpacity: colorScheme === 'light' ? 0.1 : 0.3,
       shadowRadius: 12,
       shadowOffset: { width: 0, height: 4 },
-      elevation: (colorScheme === 'dark' || colorScheme === 'frost') ? 3 : 1,
+      elevation: colorScheme === 'light' ? 1 : 3,
     },
-    isDark: colorScheme === 'dark' || colorScheme === 'frost',
+    isDark: colorScheme === 'dark',
     isFrost: colorScheme === 'frost',
   } as const;
 }

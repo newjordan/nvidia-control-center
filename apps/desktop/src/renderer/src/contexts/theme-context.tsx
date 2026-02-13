@@ -49,11 +49,15 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     setTheme(newTheme)
 
     const root = document.documentElement
-    root.classList.remove("dark", "frost")
+    root.classList.remove("frost")
     if (newTheme === "dark") {
       root.classList.add("dark")
+      root.classList.remove("frost")
     } else if (newTheme === "frost") {
-      root.classList.add("dark", "frost")
+      root.classList.remove("dark")
+      root.classList.add("frost")
+    } else {
+      root.classList.remove("dark")
     }
 
     try {
@@ -78,9 +82,10 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       setTheme(newTheme)
 
       const root = document.documentElement
-      root.classList.remove("dark", "frost")
       if (newTheme === "dark") {
         root.classList.add("dark")
+      } else {
+        root.classList.remove("dark")
       }
     }
 
@@ -141,7 +146,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   const contextValue: ThemeContextType = {
     theme,
     themeMode,
-    isDark: theme === "dark" || theme === "frost",
+    isDark: theme === "dark",
     isLight: theme === "light",
     isFrost: theme === "frost",
     setThemeMode,
