@@ -1,0 +1,40 @@
+[package]
+name = "speakmcp-daemon"
+version = "0.1.0"
+edition = "2021"
+description = "Always-on daemon for SpeakMCP — process supervision, task queue, event broadcasting"
+
+[[bin]]
+name = "speakmcp-daemon"
+path = "src/main.rs"
+
+[dependencies]
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# HTTP + WebSocket server
+axum = { version = "0.8", features = ["ws"] }
+tower-http = { version = "0.6", features = ["cors"] }
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# CLI args
+clap = { version = "4", features = ["derive"] }
+
+# Unique IDs
+uuid = { version = "1", features = ["v4"] }
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+
+[profile.release]
+opt-level = "z"     # Optimize for size
+lto = true          # Link-time optimization
+codegen-units = 1   # Single codegen unit for better optimization
+strip = true        # Strip symbols
