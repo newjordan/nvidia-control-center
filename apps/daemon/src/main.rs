@@ -10,6 +10,7 @@ mod jsonrpc;
 mod process_manager;
 mod server;
 mod task_queue;
+mod task_processor;
 
 use clap::Parser;
 use tracing::{info, warn};
@@ -61,6 +62,30 @@ async fn main() {
         warn!("daemon will run without a core process — submit tasks to queue them");
     }
 
-    // Start the HTTP/WebSocket server
+    // Spawn the process supervisor (auto-restarts crashed core)
+    let _supervisor = process_mgr.clone().spawn_supervisor();
+
+    // Spawn the task processor (picks tasks from queue, sends to core)
+    let _processor = task_processor::spawn(
+        task_queue.clone(),
+        process_mgr.clone(),
+        event_bus.clone(),
+    );
+
+    // Spawn periodic heartbeat
+    let heartbeat_bus = event_bus.clone();
+    let heartbeat_start = std::time::Instant::now();
+    tokio::spawn(async move {
+        let mut interval = tokio::time::interval(
+            std::time::Duration::from_secs(config::HEARTBEAT_INTERVAL_SECS),
+        );
+        loop {
+            interval.tick().await;
+            let uptime = heartbeat_start.elapsed().as_secs();
+            heartbeat_bus.publish(events::DaemonEvent::heartbeat(uptime, 0));
+        }
+    });
+
+    // Start the HTTP/WebSocket server (blocks until shutdown)
     server::run(args.port, event_bus, task_queue, process_mgr).await;
 }
