@@ -1,0 +1,45 @@
+{
+  "name": "@speakmcp/core",
+  "version": "1.0.0",
+  "description": "Headless SpeakMCP agent core — LLM orchestration, session management, event bus",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./event-bus": {
+      "types": "./dist/event-bus.d.ts",
+      "import": "./dist/event-bus.mjs",
+      "require": "./dist/event-bus.js"
+    },
+    "./jsonrpc": {
+      "types": "./dist/jsonrpc.d.ts",
+      "import": "./dist/jsonrpc.mjs",
+      "require": "./dist/jsonrpc.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.14.8",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.6.0"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "private": true
+}

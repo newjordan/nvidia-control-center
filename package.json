@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "pnpm --filter @speakmcp/desktop dev",
     "dev:mobile": "pnpm --filter @speakmcp/mobile start",
-    "build": "pnpm --filter @speakmcp/shared build && pnpm --filter @speakmcp/desktop build",
+    "build": "pnpm --filter @speakmcp/shared build && pnpm --filter @speakmcp/core build && pnpm --filter @speakmcp/desktop build",
     "build:shared": "pnpm --filter @speakmcp/shared build",
+    "build:core": "pnpm --filter @speakmcp/core build",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
